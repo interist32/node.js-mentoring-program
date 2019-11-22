@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "task1": "nodemon ./hw-1/task1.js -I",
+    "task2": "nodemon ./hw-1/task2.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +20,8 @@
   "homepage": "https://github.com/interist32/node.js-mentoring-program#readme",
   "devDependencies": {
     "nodemon": "^2.0.1"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
   }
 }
