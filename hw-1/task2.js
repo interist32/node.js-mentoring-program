@@ -1,5 +1,7 @@
-const csv = require('csvtojson');
-const path = require('path');
+import csv from 'csvtojson';
+import * as path from 'path';
+
+console.log(csv.csv);
 
 const CSV_FILE_PATH = path.join(__dirname, './input.csv');
 const TEXT_FILE_PATH = path.join(__dirname, './output.txt');
