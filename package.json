@@ -1,0 +1,22 @@
+{
+  "name": "node.js-mentoring-program",
+  "version": "1.0.0",
+  "description": "<img src=\"https://jsremotely.com/static/icons/nodejs.png\" width=\"100px\"/>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interist32/node.js-mentoring-program.git"
+  },
+  "author": "interist32",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/interist32/node.js-mentoring-program/issues"
+  },
+  "homepage": "https://github.com/interist32/node.js-mentoring-program#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  }
+}
