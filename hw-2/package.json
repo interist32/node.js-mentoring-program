@@ -4,6 +4,8 @@
   "description": "Homework 2.",
   "main": "server.js",
   "scripts": {
+    "start": "npm run tsc && npm run server",
+    "server": "node ./build/server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc"
   },
