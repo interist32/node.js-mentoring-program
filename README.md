@@ -7,3 +7,7 @@
   - Stdin, stand-by mode;
   - CSV, **cvstojson**;
   - ES6 Modules with **Babel**.
+- Task 2:
+  - Express, Typescripts;
+  - CRUD API service;
+  - JOI (server-side validation).
