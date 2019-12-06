@@ -1,7 +1,7 @@
 {
   "name": "hw-2",
   "version": "1.0.0",
-  "description": "Homework 2.",
+  "description": "Homework 2",
   "main": "server.js",
   "scripts": {
     "start": "npm run tsc && npm run server",
@@ -12,8 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^4.17.2",
     "express": "^4.17.1",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/uuid": "^3.4.6",
     "typescript": "^3.7.3"
   }
 }
