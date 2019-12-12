@@ -6,6 +6,7 @@
   "scripts": {
     "task1": "nodemon --exec babel-node ./hw-1/task1.js -I",
     "task2": "nodemon --exec babel-node ./hw-1/task2.js",
+    "eslint": "eslint ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,9 +20,12 @@
   },
   "homepage": "https://github.com/interist32/node.js-mentoring-program#readme",
   "devDependencies": {
-    "nodemon": "^2.0.1",
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "nodemon": "^2.0.1"
   },
   "dependencies": {
     "csvtojson": "^2.0.10"

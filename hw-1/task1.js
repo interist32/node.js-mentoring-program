@@ -5,10 +5,10 @@ const readLine = readline.createInterface({
   output: process.stdout,
 });
 
-readLine.on('line', (text) => {
-  console.log(reverse(text));
-});
-
 function reverse(str) {
   return str.split('').reverse().join('');
 }
+
+readLine.on('line', (text) => {
+  console.log(reverse(text));
+});
