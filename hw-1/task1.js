@@ -1,19 +1,14 @@
 import * as readline from 'readline';
 
-const rl = readline.createInterface({
+const readLine = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-rl.on('line', (text) => {
-  console.log(`${text} -> ${reverse(text)}`);
+readLine.on('line', (text) => {
+  console.log(reverse(text));
 });
 
-
-/**
- * Reverses a string.
- * @param {String} str
- */
 function reverse(str) {
   return str.split('').reverse().join('');
 }
