@@ -1,21 +1,22 @@
 import uuid from 'uuid';
 
-import {User} from '../models/user';
+import { User } from '../models/user';
 
 /** Simple memory storage for users. */
-export class UsersStorage {
+export default class UsersStorage {
   private users: User[] = [];
 
-  add(user: User) {
+  add(user: User): void {
     if (this.getUserByLogin(user.login)) return;
 
-    user.id = uuid();
-    user.isDeleted = false;
-    this.users = [
-      ...this.users,
-      user,
-    ];
+    const newUser: User = {
+      ...user,
+      id: uuid(),
+      isDeleted: false,
+    };
+    this.users = [...this.users, newUser];
   }
+
 
   /**
    * Returns list of users. Optionally might be filtered and limited.
@@ -23,10 +24,10 @@ export class UsersStorage {
    * @param limit count of final collection
    */
   getUsers(login?: string, limit?: number): User[] {
-    let users = this.users;
+    let { users } = this;
 
     if (login) {
-      users = users.filter(u => u.login.includes(login));
+      users = users.filter((u) => u.login.includes(login));
     }
     if (limit && limit > 0) {
       users = users.slice(0, limit);
@@ -34,39 +35,36 @@ export class UsersStorage {
     return users;
   }
 
-  getUserById(id: string): User|undefined {
+  getUserById(id: string): User | undefined {
     return this.users.find((u) => u.id === id);
   }
 
-  update(user: User) {
+  update(user: User): void {
     if (!this.userExists(user)) return;
 
     const existingUser = this.getUserById(user.id);
 
-    const updatedUser = {
-      ...existingUser,
-      ...user,
-    };
+    const updatedUser = { ...existingUser, ...user };
 
-    const userIndex = this.users.findIndex(u => u.id === user.id);
+    const userIndex = this.users.findIndex((u) => u.id === user.id);
     this.users = [
-      ...this.users.slice(0, userIndex),
-      updatedUser,
+      ...this.users.slice(0, userIndex), updatedUser,
       ...this.users.slice(userIndex + 1),
     ];
   }
 
-  remove(id: string) {
-    if (!this.getUserById(id)) return;
+  remove(id: string): void {
+    const user = this.getUserById(id);
+    if (!user) return;
 
-    this.getUserById(id)!.isDeleted = true;
+    user.isDeleted = true;
   }
 
   private userExists(user: User): boolean {
     return !!this.getUserById(user.id);
   }
 
-  private getUserByLogin(login: string): User|undefined {
-    return this.users.find(u => u.login.toLowerCase() === login.toLowerCase());
+  private getUserByLogin(login: string): User | undefined {
+    return this.users.find((u) => u.login.toLowerCase() === login.toLowerCase());
   }
 }
