@@ -6,8 +6,8 @@ import { User } from '../models/user';
 export default class UsersStorage {
   private users: User[] = [];
 
-  add(user: User): void {
-    if (this.getUserByLogin(user.login)) return;
+  add(user: User): User | null {
+    if (this.getUserByLogin(user.login)) return null;
 
     const newUser: User = {
       ...user,
@@ -15,6 +15,8 @@ export default class UsersStorage {
       isDeleted: false,
     };
     this.users = [...this.users, newUser];
+
+    return newUser;
   }
 
 
@@ -26,6 +28,8 @@ export default class UsersStorage {
   getUsers(login?: string, limit?: number): User[] {
     let { users } = this;
 
+    users = users.filter((u) => !u.isDeleted);
+
     if (login) {
       users = users.filter((u) => u.login.includes(login));
     }
@@ -35,36 +39,42 @@ export default class UsersStorage {
     return users;
   }
 
-  getUserById(id: string): User | undefined {
-    return this.users.find((u) => u.id === id);
-  }
-
-  update(user: User): void {
-    if (!this.userExists(user)) return;
-
+  update(user: User): User | null {
     const existingUser = this.getUserById(user.id);
+    if (!existingUser) return null;
 
-    const updatedUser = { ...existingUser, ...user };
+    const updatedUser = {
+      ...existingUser,
+      ...user,
+      isDeleted: existingUser.isDeleted,
+      id: existingUser.id,
+    };
 
     const userIndex = this.users.findIndex((u) => u.id === user.id);
     this.users = [
       ...this.users.slice(0, userIndex), updatedUser,
       ...this.users.slice(userIndex + 1),
     ];
+
+    return updatedUser;
   }
 
-  remove(id: string): void {
+  remove(id: string): User | null {
     const user = this.getUserById(id);
-    if (!user) return;
+    if (!user) return null;
 
     user.isDeleted = true;
+
+    return user;
   }
 
-  private userExists(user: User): boolean {
-    return !!this.getUserById(user.id);
+  getUserById(id: string): User | null {
+    return this.getUsers().find((u) => u.id === id && !u.isDeleted) || null;
   }
 
   private getUserByLogin(login: string): User | undefined {
-    return this.users.find((u) => u.login.toLowerCase() === login.toLowerCase());
+    return this.getUsers().find(
+      (u) => u.login.toLowerCase() === login.toLowerCase(),
+    );
   }
 }

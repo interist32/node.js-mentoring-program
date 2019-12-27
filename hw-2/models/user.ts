@@ -1,4 +1,5 @@
 import * as Joi from '@hapi/joi';
+import { ContainerTypes, ValidatedRequestSchema } from 'express-joi-validation';
 
 /** User model. */
 export interface User {
@@ -17,3 +18,12 @@ export const userSchema = Joi.object<User>({
   age: Joi.number().min(4).max(130).required(),
   isDeleted: Joi.boolean(),
 });
+
+export const optionalUserSchema = userSchema.fork(
+  ['login', 'password', 'age'],
+  (schema) => schema.optional(),
+);
+
+export interface UserRequestSchema extends ValidatedRequestSchema {
+  [ContainerTypes.Body]: User;
+}
