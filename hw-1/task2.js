@@ -10,7 +10,9 @@ const readStream = require('fs').createReadStream(CSV_FILE_PATH);
 const writeStream = require('fs').createWriteStream(TEXT_FILE_PATH);
 
 readStream
-    .pipe(csv({
-            headers: ['book', 'author', 'amount', 'price'],
-          }).on('error', (err) => console.log(err)))
-    .pipe(writeStream);
+  .pipe(
+    csv()
+      .preFileLine((fileLine, idx) => (idx === 0 ? fileLine.toLocaleLowerCase() : fileLine))
+      .on('error', (err) => console.log(err)),
+  )
+  .pipe(writeStream);
