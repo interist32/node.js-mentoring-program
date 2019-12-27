@@ -4,9 +4,12 @@
   "description": "<img src=\"https://jsremotely.com/static/icons/nodejs.png\" width=\"100px\"/>",
   "main": "index.js",
   "scripts": {
+    "eslint": "node ./node_modules/eslint/bin/eslint ./",
     "task1": "nodemon --exec babel-node ./task1.js -I",
     "task2": "nodemon --exec babel-node ./task2.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepush": "npm run eslint",
+    "precommit": "npm run eslint"
   },
   "repository": {
     "type": "git",
@@ -24,6 +27,7 @@
     "eslint": "^6.7.2",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1",
+    "husky": "^3.1.0",
     "nodemon": "^2.0.1"
   },
   "dependencies": {
