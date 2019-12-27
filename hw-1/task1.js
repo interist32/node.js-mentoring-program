@@ -10,5 +10,5 @@ function reverse(str) {
 }
 
 readLine.on('line', (text) => {
-  console.log(reverse(text));
+  console.log(reverse(Buffer.from(text).toString('utf8')));
 });
