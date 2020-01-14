@@ -1,7 +1,7 @@
 import {
   createValidator,
 } from 'express-joi-validation';
-import { userSchema, optionalUserSchema } from '../models/user';
+import { userSchema, optionalUserSchema } from '@app-models/user';
 import {
   getUsers, getUser, addUser, updateUser, deleteUser,
 } from '../controllers/users';

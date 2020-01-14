@@ -12,13 +12,16 @@
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "ignorePatterns": ["build"],
+  "ignorePatterns": [
+    "build"
+  ],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "rules": {
-    "no-console": 0
+    "no-console": 0,
+    "import/no-unresolved": 0
   },
   "overrides": [
     {

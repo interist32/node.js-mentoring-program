@@ -1,6 +1,6 @@
 import uuid from 'uuid';
+import { User } from '@app-models/user';
 
-import { User } from '../models/user';
 
 /** Simple memory storage for users. */
 export default class UsersStorage {

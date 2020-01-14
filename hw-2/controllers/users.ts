@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
+import { UserRequestSchema, User } from '@app-models/user';
 import UsersStorage from '../storage/users';
-import { UserRequestSchema, User } from '../models/user';
 
 const usersStorage = new UsersStorage();
 
