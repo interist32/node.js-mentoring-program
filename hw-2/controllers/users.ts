@@ -8,23 +8,22 @@ const usersStorage = new UsersStorage();
 function prepareUser(user: User | null): User | null {
   if (user === null) return null;
 
-  const preparedUser = {
-    ...user,
-  };
-  delete preparedUser.isDeleted;
+  const { isDeleted: _, ...preparedUser } = user;
 
   return preparedUser;
 }
 
-export const getUsers = (req: Request, res: Response): void => {
-  const users = usersStorage.getUsers(
-    req.query.login, Number(req.query.limit) || undefined,
-  ).map((user) => prepareUser(user));
+export const getUsers = ({ query }: Request, res: Response): void => {
+  const { login, limitQueryString } = query;
+  const limit = +limitQueryString || undefined;
+  const users = usersStorage.getUsers(login, limit).map(prepareUser);
   res.json(users);
 };
 
 export const getUser = (req: Request, res: Response): void => {
-  res.json(prepareUser(usersStorage.getUserById(req.params.id)));
+  const user = usersStorage.getUserById(req.params.id);
+  const preparedUser = prepareUser(user);
+  res.json(preparedUser);
 };
 
 export const addUser = (req: ValidatedRequest<UserRequestSchema>, res: Response): void => {

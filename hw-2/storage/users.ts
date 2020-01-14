@@ -40,14 +40,14 @@ export default class UsersStorage {
   }
 
   update(user: User): User | null {
-    const existingUser = this.getUserById(user.id);
-    if (!existingUser) return null;
+    const { id, isDeleted, ...existingUser } = this.getUserById(user.id) || {};
+    if (!id) return null;
 
     const updatedUser = {
       ...existingUser,
       ...user,
-      isDeleted: existingUser.isDeleted,
-      id: existingUser.id,
+      isDeleted,
+      id,
     };
 
     const userIndex = this.users.findIndex((u) => u.id === user.id);
