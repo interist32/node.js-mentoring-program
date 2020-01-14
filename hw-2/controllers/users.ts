@@ -9,6 +9,7 @@ function prepareUser(user: User | null): User | null {
   if (user === null) return null;
 
   const { isDeleted: _, ...preparedUser } = user;
+  console.log(_);
 
   return preparedUser;
 }
