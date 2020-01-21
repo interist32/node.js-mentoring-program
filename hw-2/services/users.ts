@@ -2,8 +2,8 @@ import uuid from 'uuid';
 import { User } from '@app-models/user';
 
 
-/** Simple memory storage for users. */
-export default class UsersStorage {
+/** Simple memory service for users. */
+export default class UsersService {
   private users: User[] = [];
 
   add(user: User): User | null {

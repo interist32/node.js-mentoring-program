@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
 import { UserRequestSchema, User } from '@app-models/user';
-import UsersStorage from '../storage/users';
+import UsersService from '../services/users';
 
-const usersStorage = new UsersStorage();
+const usersService = new UsersService();
 
 function prepareUser(user: User | null): User | null {
   if (user === null) return null;
@@ -17,18 +17,18 @@ function prepareUser(user: User | null): User | null {
 export const getUsers = ({ query }: Request, res: Response): void => {
   const { login, limitQueryString } = query;
   const limit = +limitQueryString || undefined;
-  const users = usersStorage.getUsers(login, limit).map(prepareUser);
+  const users = usersService.getUsers(login, limit).map(prepareUser);
   res.json(users);
 };
 
 export const getUser = (req: Request, res: Response): void => {
-  const user = usersStorage.getUserById(req.params.id);
+  const user = usersService.getUserById(req.params.id);
   const preparedUser = prepareUser(user);
   res.json(preparedUser);
 };
 
 export const addUser = (req: ValidatedRequest<UserRequestSchema>, res: Response): void => {
-  res.json(prepareUser(usersStorage.add(req.body)));
+  res.json(prepareUser(usersService.add(req.body)));
 };
 
 export const updateUser = (req: ValidatedRequest<UserRequestSchema>, res: Response): void => {
@@ -36,12 +36,12 @@ export const updateUser = (req: ValidatedRequest<UserRequestSchema>, res: Respon
     ...req.body,
     id: req.params.id,
   };
-  res.json(prepareUser(usersStorage.update(user)));
+  res.json(prepareUser(usersService.update(user)));
 };
 
 export const deleteUser = (
   req: ValidatedRequest<UserRequestSchema>,
   res: Response,
 ): void => {
-  res.json(prepareUser(usersStorage.remove(req.params.id)));
+  res.json(prepareUser(usersService.remove(req.params.id)));
 };
