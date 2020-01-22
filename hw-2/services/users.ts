@@ -1,80 +1,38 @@
-import uuid from 'uuid';
 import { User } from '@app-models/user';
+import UsersRepository from '../data-access/usersRepository';
 
 
-/** Simple memory service for users. */
 export default class UsersService {
-  private users: User[] = [];
+  private readonly usersRepository: UsersRepository;
 
-  add(user: User): User | null {
-    if (this.getUserByLogin(user.login)) return null;
-
-    const newUser: User = {
-      ...user,
-      id: uuid(),
-      isDeleted: false,
-    };
-    this.users = [...this.users, newUser];
-
-    return newUser;
+  constructor(usersRepository: UsersRepository) {
+    this.usersRepository = usersRepository;
   }
 
-
-  /**
-   * Returns list of users. Optionally might be filtered and limited.
-   * @param login substring for login name
-   * @param limit count of final collection
-   */
-  getUsers(login?: string, limit?: number): User[] {
-    let { users } = this;
-
-    users = users.filter((u) => !u.isDeleted);
-
-    if (login) {
-      users = users.filter((u) => u.login.includes(login));
-    }
-    if (limit && limit > 0) {
-      users = users.slice(0, limit);
-    }
-    return users;
+  add(user: User): Promise<User> {
+    return this.usersRepository.getUserByLogin(user.login)
+      .then((existingUser) => {
+        if (existingUser) {
+          throw new Error('User with such login already exists');
+        } else {
+          return this.usersRepository.add(user);
+        }
+      });
   }
 
-  update(user: User): User | null {
-    const { id, isDeleted, ...existingUser } = this.getUserById(user.id) || {};
-    if (!id) return null;
-
-    const updatedUser = {
-      ...existingUser,
-      ...user,
-      isDeleted,
-      id,
-    };
-
-    const userIndex = this.users.findIndex((u) => u.id === user.id);
-    this.users = [
-      ...this.users.slice(0, userIndex), updatedUser,
-      ...this.users.slice(userIndex + 1),
-    ];
-
-    return updatedUser;
+  getUsers(login?: string, limit?: number): Promise<User[]> {
+    return this.usersRepository.getUsers(login, limit);
   }
 
-  remove(id: string): User | null {
-    const user = this.getUserById(id);
-    if (!user) return null;
-
-    user.isDeleted = true;
-
-    return user;
+  getUserById(id: string): Promise<User> {
+    return this.usersRepository.getUserById(id);
   }
 
-  getUserById(id: string): User | null {
-    return this.getUsers().find((u) => u.id === id && !u.isDeleted) || null;
+  update(user: User): Promise<User> {
+    return this.usersRepository.update(user);
   }
 
-  private getUserByLogin(login: string): User | undefined {
-    return this.getUsers().find(
-      (u) => u.login.toLowerCase() === login.toLowerCase(),
-    );
+  remove(id: string): Promise<User> {
+    return this.usersRepository.remove(id);
   }
 }
