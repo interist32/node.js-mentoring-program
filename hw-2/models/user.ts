@@ -13,14 +13,6 @@ export class User extends Model {
   age!: number;
 
   isDeleted?: boolean;
-
-  toJSON(): Partial<User> {
-    return {
-      id: this.id,
-      login: this.login,
-      password: this.password,
-    };
-  }
 }
 
 /** User validation schema. */

@@ -4,7 +4,7 @@ import {
 import { userSchema, optionalUserSchema } from '@app-models/user';
 import {
   getUsers, getUser, addUser, updateUser, deleteUser,
-} from '../controllers/users';
+} from '../controllers/users.controller';
 
 import express = require('express');
 
