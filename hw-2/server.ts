@@ -1,3 +1,6 @@
+require('module-alias/register');
+
+// eslint-disable-next-line import/first
 import usersRouter from './routes/users';
 
 import express = require('express');
