@@ -1,7 +1,7 @@
 require('module-alias/register');
 
 // eslint-disable-next-line import/first
-import usersRouter from './routes/users';
+import usersRouter from './routers/user.router';
 
 import express = require('express');
 import bodyParser = require('body-parser');

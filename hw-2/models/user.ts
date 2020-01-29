@@ -1,12 +1,17 @@
 import * as Joi from '@hapi/joi';
 import { ContainerTypes, ValidatedRequestSchema } from 'express-joi-validation';
+import { Model } from 'sequelize';
 
 /** User model. */
-export interface User {
-  id: string;
-  login: string;
-  password: string;
-  age: number;
+export class User extends Model {
+  id!: string;
+
+  login!: string;
+
+  password!: string;
+
+  age!: number;
+
   isDeleted?: boolean;
 }
 
