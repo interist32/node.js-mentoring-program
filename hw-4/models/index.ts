@@ -18,9 +18,9 @@ User.belongsToMany(Group, {
   onDelete: 'CASCADE',
 } as BelongsToManyOptions);
 
-User.sync();
-Group.sync();
-UserGroup.sync();
+// User.sync();
+// Group.sync();
+// UserGroup.sync();
 
 export {
   User,
