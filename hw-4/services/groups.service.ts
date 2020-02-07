@@ -34,4 +34,8 @@ export default class GroupService {
   remove(id: string): Promise<number> {
     return this.groupRepository.remove(id);
   }
+
+  addUsersToGroup(groupId: string, userIds: string[]): Promise<number> {
+    return this.groupRepository.addUsersToGroup(groupId, userIds);
+  }
 }

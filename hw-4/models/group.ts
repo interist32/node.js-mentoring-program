@@ -10,7 +10,7 @@ export default class Group extends Model {
 
   name!: string;
 
-  permissions: Permission[] = [];
+  permissions!: Array<Permission>;
 }
 
 Group.init({
