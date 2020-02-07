@@ -1,46 +1,10 @@
-import { Sequelize, DataTypes } from 'sequelize';
-import Group from '@app-models/group';
+import { Group } from '@app-models/index';
 
 import uuid from 'uuid';
-import CONNECTION_STRING from './config';
 
-const connectionString = process.env.CONNECTION_STRING || CONNECTION_STRING;
 
 export default class GroupRepository {
-  private readonly sequelize: Sequelize;
-
   private readonly groupModel = Group;
-
-  constructor() {
-    this.sequelize = new Sequelize(connectionString, {
-      dialect: 'postgres',
-      dialectOptions: {
-        ssl: true,
-      },
-    });
-
-    this.sequelize.authenticate()
-      .then(() => console.log('Database connection established'))
-      .catch((error) => console.log(`Connection failed: ${error}`));
-
-    this.initModel();
-  }
-
-  private initModel(): void {
-    this.groupModel.init({
-      id: {
-        type: DataTypes.UUID,
-        primaryKey: true,
-      },
-      name: DataTypes.STRING,
-      permissions: DataTypes.ARRAY,
-    }, {
-      sequelize: this.sequelize,
-      tableName: 'group',
-    });
-
-    this.groupModel.sync();
-  }
 
   getGroups(): Promise<Group[]> {
     return this.groupModel.findAll();

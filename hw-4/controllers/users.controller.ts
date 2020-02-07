@@ -1,11 +1,14 @@
+import { User, UserRequestSchema } from '@app-models/user';
 import { Request, Response } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
-import { UserRequestSchema, User } from '@app-models/user';
 
-import UsersService from '../services/users.service';
+import GroupRepository from '../data-access/group.repository';
 import UserRepository from '../data-access/user.repository';
+import GroupService from '../services/groups.service';
+import UsersService from '../services/users.service';
 
 const usersService = new UsersService(new UserRepository());
+const groupService = new GroupService(new GroupRepository());
 
 export const getUsers = ({ query }: Request, res: Response): void => {
   const { login, limitQueryString } = query;
