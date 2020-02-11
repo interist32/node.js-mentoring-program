@@ -39,13 +39,10 @@ export default class GroupRepository {
   }
 
   update(group: Group): Promise<Group> {
-    const {
-      id, name, permissions,
-    } = group;
+    const { id } = group;
 
     return this.groupModel.update({
-      name,
-      permissions,
+      ...group,
     }, {
       where: {
         id,
@@ -63,14 +60,14 @@ export default class GroupRepository {
   }
 
   addUsersToGroup(groupId: string, userIds: string[]): Promise<number> {
-    return sequelize.transaction((t) => {
+    return sequelize.transaction((transaction) => {
       const bulk: Promise<UserGroup>[] = [];
 
       userIds.forEach((userId) => {
         bulk.push(this.userGroupModel.create({
           groupId,
           userId,
-        }, { transaction: t }));
+        }, { transaction }));
       });
 
       return Promise.all(bulk).then((res) => res.length);

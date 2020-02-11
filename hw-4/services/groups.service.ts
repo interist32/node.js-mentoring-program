@@ -4,8 +4,8 @@ import GroupRepository from '../data-access/group.repository';
 export default class GroupService {
   private readonly groupRepository: GroupRepository;
 
-  constructor(usersRepository: GroupRepository) {
-    this.groupRepository = usersRepository;
+  constructor(groupRepository: GroupRepository) {
+    this.groupRepository = groupRepository;
   }
 
   add(group: Group): Promise<Group> {
@@ -19,7 +19,7 @@ export default class GroupService {
       });
   }
 
-  getGroups(): Promise<Array<Group>> {
+  getGroups(): Promise<Group[]> {
     return this.groupRepository.getGroups();
   }
 

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import Group from '@app-models/group';
+import HTTP_ERROR from '../constants/http-errors.enum';
 import GroupRepository from '../data-access/group.repository';
 import GroupService from '../services/groups.service';
 
@@ -10,29 +11,34 @@ export const getGroups = (req: Request, res: Response): void => {
   groupService.getGroups().then((groups) => res.json(groups));
 };
 
-export const getGroup = (req: Request, res: Response): void => {
-  groupService.getGroupById(req.params.id).then((group) => res.json(group));
+export const getGroup = ({ params }: Request, res: Response): void => {
+  const { id } = params;
+  groupService.getGroupById(id).then((group) => res.json(group));
 };
 
 export const addGroup = ({ body }: Request, res: Response): void => {
   const { name, permissions } = body;
-  groupService.add({
-    name,
-    permissions,
-  } as Group)
-    .then((group: Group) => res.json(group))
-    .catch((error: Error) => {
-      res.status(500).json({ error: error.message });
-    });
-};
-
-export const updateGroup = (req: Request, res: Response): void => {
-  const { name, permissions } = req.body;
 
   const group = {
     name,
     permissions,
-    id: req.params.id,
+  } as Group;
+
+  groupService.add(group)
+    .then((g) => res.json(g))
+    .catch((error: Error) => {
+      res.status(HTTP_ERROR.INTERNAL_SERVER_ERROR).json({ error: error.message });
+    });
+};
+
+export const updateGroup = ({ body, params }: Request, res: Response): void => {
+  const { id } = params;
+  const { name, permissions } = body;
+
+  const group = {
+    name,
+    permissions,
+    id,
   } as Group;
 
   groupService.update(group).then((g) => res.json(g));
