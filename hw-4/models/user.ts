@@ -1,6 +1,8 @@
 import * as Joi from '@hapi/joi';
 import { ContainerTypes, ValidatedRequestSchema } from 'express-joi-validation';
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../sequelize/sequalize';
+
 
 /** User model. */
 export class User extends Model {
@@ -14,6 +16,28 @@ export class User extends Model {
 
   isDeleted?: boolean;
 }
+
+User.init({
+  id: {
+    type: DataTypes.UUID,
+    primaryKey: true,
+  },
+  login: DataTypes.STRING,
+  password: DataTypes.STRING,
+  age: DataTypes.SMALLINT,
+  isDeleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+}, {
+  sequelize,
+  tableName: 'user',
+  defaultScope: {
+    attributes: {
+      exclude: ['isDeleted'],
+    },
+  },
+});
 
 /** User validation schema. */
 export const userSchema = Joi.object<User>({
