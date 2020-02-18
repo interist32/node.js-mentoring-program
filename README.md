@@ -11,3 +11,7 @@
   - Express, Typescripts;
   - CRUD API service;
   - JOI (server-side validation).
+- Task 3, 4:
+  - Postgres
+  - Sequelize (ORM)
+  - 3-Layered architecture
