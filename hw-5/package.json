@@ -1,7 +1,7 @@
 {
-  "name": "hw-4",
+  "name": "hw-5",
   "version": "1.0.0",
-  "description": "Homework 4",
+  "description": "Homework 5",
   "main": "server.js",
   "scripts": {
     "start": "npm run tsc && npm run server",
