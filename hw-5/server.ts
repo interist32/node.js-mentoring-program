@@ -7,11 +7,13 @@ import userRouter from './routers/user.router';
 
 import express = require('express');
 import bodyParser = require('body-parser');
+import {apiLogger} from './middlewares/api-logger';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+app.use(apiLogger);
 app.use('/users', userRouter);
 app.use('/groups', groupRouter);
 
