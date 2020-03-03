@@ -1,15 +1,15 @@
-require('module-alias/register');
-
 // eslint-disable-next-line import/first
 import groupRouter from './routers/group.router';
 // eslint-disable-next-line import/first
 import userRouter from './routers/user.router';
+import { apiLogger } from './middlewares/api-logger';
+import { errorHandler } from './middlewares/error-handler';
+import logger from './middlewares/logger';
+
+require('module-alias/register');
 
 import express = require('express');
 import bodyParser = require('body-parser');
-import {apiLogger} from './middlewares/api-logger';
-import {errorHandler} from './middlewares/error-handler';
-import {logger} from './middlewares/logger';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,12 +24,12 @@ app.listen(PORT, () => {
   logger.info(`Server is listening on http://localhost:${PORT}`);
 });
 
-process.on('unhandledRejection', function(reason) {
+process.on('unhandledRejection', (reason) => {
   logger.error('unhandledRejection', reason);
 });
 
-process.on('uncaughtException', function(err) {
-  logger.error('UncaughtException:', err.message);
-  logger.error(err.stack);
+process.on('uncaughtException', (err) => {
+  logger.error('UncaughtException', err.message);
+  logger.error(err);
   process.exit(1);
-})
+});

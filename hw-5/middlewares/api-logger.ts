@@ -1,10 +1,11 @@
-import {NextFunction, Request, Response} from 'express';
-import {logger} from './logger';
+import { NextFunction, Request, Response } from 'express';
+import logger from './logger';
 
-export const apiLogger = (req: Request, res: Response, next: NextFunction) => {
-  let logStr = `[${req.method}] ${req.url}\n Params: ${
-      JSON.stringify(req.params)}\n Body: ${JSON.stringify(req.body)}`;
+export const apiLogger = (req: Request, res: Response, next: NextFunction): void => {
+  const log = `${req.method} ${req.url} Params: ${JSON.stringify(req.params)}`;
 
-  logger.info(logStr);
+  logger.info(log);
   next();
 };
+
+export default apiLogger;
