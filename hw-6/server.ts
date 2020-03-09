@@ -11,10 +11,12 @@ require('module-alias/register');
 
 import express = require('express');
 import bodyParser = require('body-parser');
+import cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(apiLogger);
 app.use('/login', authRouter);
