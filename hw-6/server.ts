@@ -1,14 +1,13 @@
 // eslint-disable-next-line import/first
-import { checkAuthToken } from './middlewares/check-auth-token';
+require('module-alias/register');
+
+import {checkAuthToken} from './middlewares/check-auth-token';
 import groupRouter from './routers/group.router';
-// eslint-disable-next-line import/first
 import userRouter from './routers/user.router';
 import authRouter from './routers/auth.router';
-import { apiLogger } from './middlewares/api-logger';
-import { errorHandler } from './middlewares/error-handler';
+import {apiLogger} from './middlewares/api-logger';
+import {errorHandler} from './middlewares/error-handler';
 import logger from './middlewares/logger';
-
-require('module-alias/register');
 
 import express = require('express');
 import bodyParser = require('body-parser');
