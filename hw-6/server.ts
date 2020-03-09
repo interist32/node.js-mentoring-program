@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/first
+import { checkAuthToken } from './middlewares/check-auth-token';
 import groupRouter from './routers/group.router';
 // eslint-disable-next-line import/first
 import userRouter from './routers/user.router';
@@ -20,8 +21,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(apiLogger);
 app.use('/login', authRouter);
-app.use('/users', userRouter);
-app.use('/groups', groupRouter);
+app.use('/users', checkAuthToken, userRouter);
+app.use('/groups', checkAuthToken, groupRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
