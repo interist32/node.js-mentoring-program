@@ -1,4 +1,4 @@
-import {Group, UserGroup} from '@app-models/index';
+import { Group, UserGroup } from '@app-models/index';
 import uuid from 'uuid';
 import sequelize from '../sequelize/sequalize';
 
@@ -29,32 +29,34 @@ export default class GroupRepository {
   }
 
   add(group: Group): Promise<Group> {
-    const {name, permissions} = group;
+    const { name, permissions } = group;
 
     return this.groupModel.create<Group>(
-        {
-          id: uuid(),
-          name,
-          permissions,
-        },
-        {});
+      {
+        id: uuid(),
+        name,
+        permissions,
+      },
+      {},
+    );
   }
 
   update(group: Group): Promise<Group> {
-    const {id} = group;
+    const { id } = group;
 
     return this.groupModel
-        .update(
-            {
-              ...group,
-            },
-            {
-              where: {
-                id,
-              },
-              returning: true,
-            })
-        .then(([number, updatedGroups]) => number && updatedGroups[0]);
+      .update(
+        {
+          ...group,
+        },
+        {
+          where: {
+            id,
+          },
+          returning: true,
+        },
+      )
+      .then(([number, updatedGroups]) => number && updatedGroups[0]);
   }
 
   remove(id: string): Promise<number> {
@@ -71,11 +73,12 @@ export default class GroupRepository {
 
       userIds.forEach((userId) => {
         bulk.push(this.userGroupModel.create(
-            {
-              groupId,
-              userId,
-            },
-            {transaction}));
+          {
+            groupId,
+            userId,
+          },
+          { transaction },
+        ));
       });
 
       return Promise.all(bulk).then((res) => res.length);

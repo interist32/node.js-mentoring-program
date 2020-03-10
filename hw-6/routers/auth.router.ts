@@ -1,4 +1,4 @@
-import {login} from '../controllers/auth.controller';
+import { login } from '../controllers/auth.controller';
 
 import express = require('express');
 
