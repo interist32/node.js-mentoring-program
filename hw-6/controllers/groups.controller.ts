@@ -1,7 +1,7 @@
+import Group from '@app-models/group';
 import { Request, Response } from 'express';
 
-import Group from '@app-models/group';
-import HTTP_ERROR from '../constants/http-errors.enum';
+import { HTTP_ERROR } from '../constants/http-errors.enum';
 import GroupRepository from '../data-access/group.repository';
 import GroupService from '../services/groups.service';
 
@@ -24,11 +24,9 @@ export const addGroup = ({ body }: Request, res: Response): void => {
     permissions,
   } as Group;
 
-  groupService.add(group)
-    .then((g) => res.json(g))
-    .catch((error: Error) => {
-      res.status(HTTP_ERROR.INTERNAL_SERVER_ERROR).json({ error: error.message });
-    });
+  groupService.add(group).then((g) => res.json(g)).catch((error: Error) => {
+    res.status(HTTP_ERROR.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  });
 };
 
 export const updateGroup = ({ body, params }: Request, res: Response): void => {
@@ -53,5 +51,6 @@ export const deleteGroup = (
 
 export const addUsersToGroup = ({ body }: Request, res: Response): void => {
   const { userIds, groupId } = body;
-  groupService.addUsersToGroup(groupId, userIds).then((updatedCount) => res.json(updatedCount));
+  groupService.addUsersToGroup(groupId, userIds)
+    .then((updatedCount) => res.json(updatedCount));
 };

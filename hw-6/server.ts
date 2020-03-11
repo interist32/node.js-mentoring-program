@@ -1,23 +1,27 @@
 // eslint-disable-next-line import/first
-import groupRouter from './routers/group.router';
-// eslint-disable-next-line import/first
-import userRouter from './routers/user.router';
-import { apiLogger } from './middlewares/api-logger';
-import { errorHandler } from './middlewares/error-handler';
-import logger from './middlewares/logger';
-
 require('module-alias/register');
+
+import {checkAuthToken} from './middlewares/check-auth-token';
+import groupRouter from './routers/group.router';
+import userRouter from './routers/user.router';
+import authRouter from './routers/auth.router';
+import {apiLogger} from './middlewares/api-logger';
+import {errorHandler} from './middlewares/error-handler';
+import logger from './middlewares/logger';
 
 import express = require('express');
 import bodyParser = require('body-parser');
+import cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(apiLogger);
-app.use('/users', userRouter);
-app.use('/groups', groupRouter);
+app.use('/login', authRouter);
+app.use('/users', checkAuthToken, userRouter);
+app.use('/groups', checkAuthToken, groupRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {

@@ -31,24 +31,32 @@ export default class GroupRepository {
   add(group: Group): Promise<Group> {
     const { name, permissions } = group;
 
-    return this.groupModel.create<Group>({
-      id: uuid(),
-      name,
-      permissions,
-    }, {});
+    return this.groupModel.create<Group>(
+      {
+        id: uuid(),
+        name,
+        permissions,
+      },
+      {},
+    );
   }
 
   update(group: Group): Promise<Group> {
     const { id } = group;
 
-    return this.groupModel.update({
-      ...group,
-    }, {
-      where: {
-        id,
-      },
-      returning: true,
-    }).then(([number, updatedGroups]) => number && updatedGroups[0]);
+    return this.groupModel
+      .update(
+        {
+          ...group,
+        },
+        {
+          where: {
+            id,
+          },
+          returning: true,
+        },
+      )
+      .then(([number, updatedGroups]) => number && updatedGroups[0]);
   }
 
   remove(id: string): Promise<number> {
@@ -64,10 +72,13 @@ export default class GroupRepository {
       const bulk: Promise<UserGroup>[] = [];
 
       userIds.forEach((userId) => {
-        bulk.push(this.userGroupModel.create({
-          groupId,
-          userId,
-        }, { transaction }));
+        bulk.push(this.userGroupModel.create(
+          {
+            groupId,
+            userId,
+          },
+          { transaction },
+        ));
       });
 
       return Promise.all(bulk).then((res) => res.length);

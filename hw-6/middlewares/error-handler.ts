@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import HTTP_ERROR from 'constants/http-errors.enum';
+
+import { HTTP_ERROR } from '../constants/http-errors.enum';
 
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction): void => {
   if (res.headersSent) {

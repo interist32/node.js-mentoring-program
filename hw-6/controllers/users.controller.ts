@@ -2,9 +2,9 @@ import { User, UserRequestSchema } from '@app-models/user';
 import { Request, Response } from 'express';
 import { ValidatedRequest } from 'express-joi-validation';
 
+import { HTTP_ERROR } from '../constants/http-errors.enum';
 import UserRepository from '../data-access/user.repository';
 import UsersService from '../services/users.service';
-import HTTP_ERROR from '../constants/http-errors.enum';
 
 const usersService = new UsersService(new UserRepository());
 
@@ -26,12 +26,14 @@ export const addUser = ({ body }: ValidatedRequest<UserRequestSchema>, res: Resp
   usersService.add(body)
     .then((user: User) => res.json(user))
     .catch((error: Error) => {
-      res.status(HTTP_ERROR.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      res.status(HTTP_ERROR.INTERNAL_SERVER_ERROR).json({
+        error: error.message,
+      });
     });
 };
 
-export const updateUser = ({ body, params }: ValidatedRequest<UserRequestSchema>,
-  res: Response): void => {
+export const updateUser = ({ body, params }: ValidatedRequest<UserRequestSchema>, res: Response):
+        void => {
   const { id } = params;
   const user = new User({
     ...body,
