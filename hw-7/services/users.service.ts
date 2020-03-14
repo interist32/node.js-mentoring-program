@@ -1,11 +1,11 @@
-import { User } from '@app-models/user';
-import UserRepository from '../data-access/user.repository';
+import {is} from 'bluebird';
+import {UserRepository} from 'data-access/repositories/user.repository.interface';
+import {User} from 'entities/user.interface';
 
-
-function prepareUser(user: User): Partial<User> | null {
+function prepareUser(user: User|null): Partial<User>|null {
   if (!user) return null;
 
-  const { id, login, password } = user;
+  const {id, login, password} = user;
 
   return {
     id,
@@ -23,13 +23,13 @@ export default class UsersService {
 
   add(user: User): Promise<User> {
     return this.usersRepository.getUserByLogin(user.login)
-      .then((existingUser) => {
-        if (existingUser) {
-          throw new Error('User with such login already exists');
-        } else {
-          return this.usersRepository.add(user);
-        }
-      });
+        .then((existingUser) => {
+          if (existingUser) {
+            throw new Error('User with such login already exists');
+          } else {
+            return this.usersRepository.add(user);
+          }
+        });
   }
 
   getUsers(login?: string, limit?: number): Promise<Array<Partial<User>>> {
@@ -52,11 +52,11 @@ export default class UsersService {
     return this.usersRepository.getUserById(userId).then(prepareUser);
   }
 
-  update(user: User): Promise<Partial<User> | null> {
+  update(user: User): Promise<Partial<User>|null> {
     return this.usersRepository.update(user).then(prepareUser);
   }
 
-  remove(id: string): Promise<Partial<User> | null> {
+  remove(id: string): Promise<Partial<User>|null> {
     return this.usersRepository.remove(id).then(prepareUser);
   }
 }
