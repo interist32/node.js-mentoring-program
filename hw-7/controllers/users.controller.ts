@@ -28,7 +28,8 @@ export class UsersController {
     this.usersService.add(body)
         .then((user: User) => res.json(user))
         .catch((error: Error) => {
-          res.status(HTTP_ERROR.INTERNAL_SERVER_ERROR).json({
+          res.status(HTTP_ERROR.INTERNAL_SERVER_ERROR);
+          res.json({
             error: error.message,
           });
         });
