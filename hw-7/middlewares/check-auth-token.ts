@@ -1,7 +1,8 @@
 import {NextFunction, Request, Response} from 'express';
 import * as jwt from 'jsonwebtoken';
 
-import {HTTP_ERROR, JWT_HTTP_HEADER_KEY, JWT_SECRET} from '../constants/http-errors.enum';
+import {JWT_HTTP_HEADER_KEY, JWT_SECRET} from '../config';
+import {HTTP_ERROR} from '../constants/http-errors.enum';
 
 export const checkAuthToken =
     (req: Request, res: Response, next: NextFunction): void => {

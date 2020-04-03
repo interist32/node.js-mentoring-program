@@ -1,5 +1,6 @@
-import Group from '@app-models/group';
-import GroupRepository from '../data-access/group.repository';
+import {Group} from '@app-models/group.inteface';
+
+import GroupRepository from '../data-access/repositories/group.repository';
 
 export default class GroupService {
   private readonly groupRepository: GroupRepository;
@@ -10,13 +11,13 @@ export default class GroupService {
 
   add(group: Group): Promise<Group> {
     return this.groupRepository.getGroupByName(group.name)
-      .then((existingGroup) => {
-        if (existingGroup) {
-          throw new Error('Group with such name already exists');
-        } else {
-          return this.groupRepository.add(group);
-        }
-      });
+        .then((existingGroup) => {
+          if (existingGroup) {
+            throw new Error('Group with such name already exists');
+          } else {
+            return this.groupRepository.add(group);
+          }
+        });
   }
 
   getGroups(): Promise<Group[]> {
@@ -27,7 +28,7 @@ export default class GroupService {
     return this.groupRepository.getGroupById(id);
   }
 
-  update(group: Group): Promise<Partial<Group> | null> {
+  update(group: Group): Promise<Partial<Group>|null> {
     return this.groupRepository.update(group);
   }
 

@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/first
 require('module-alias/register');
+require('dotenv').config();
 
 import {checkAuthToken} from './middlewares/check-auth-token';
 import groupRouter from './routers/group.router';
@@ -12,9 +13,9 @@ import logger from './middlewares/logger';
 import express = require('express');
 import bodyParser = require('body-parser');
 import cors = require('cors');
+import {SERVER_PORT} from './config';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,8 +25,8 @@ app.use('/users', checkAuthToken, userRouter);
 app.use('/groups', checkAuthToken, groupRouter);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  logger.info(`Server is listening on http://localhost:${PORT}`);
+app.listen(SERVER_PORT, () => {
+  logger.info(`Server is listening on http://localhost:${SERVER_PORT}`);
 });
 
 process.on('unhandledRejection', (reason) => {
