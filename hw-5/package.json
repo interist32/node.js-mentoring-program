@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^16.1.8",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-joi-validation": "^4.0.3",
     "module-alias": "^2.2.2",
     "pg": "^7.17.1",
