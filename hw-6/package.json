@@ -17,7 +17,7 @@
   "dependencies": {
     "@hapi/joi": "^16.1.8",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-joi-validation": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
